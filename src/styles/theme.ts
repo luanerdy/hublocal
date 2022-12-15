@@ -14,4 +14,9 @@ const breakpoints = {
 	'2xl': '1400px'
 }
 
-export const theme = extendTheme({ config, breakpoints })
+const fonts = {
+	heading: '\'PT Mono\', sans-serif',
+	body: '\'Poppins\', sans-serif',
+}
+
+export const theme = extendTheme({ config, breakpoints, fonts })
