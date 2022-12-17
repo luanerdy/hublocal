@@ -9,7 +9,7 @@ import { InitialUser, SignInInputs } from '../../@types/auth'
 import { login } from '../../services/auth'
 import { decodeToken } from 'react-jwt'
 import { useDispatch, batch } from 'react-redux'
-import { setEmail, setNome } from '../../store/slices/user'
+import { setEmail, setNome, setToken } from '../../store/slices/user'
 import { Logo } from '../../components/Logo'
 
 export const SignIn = () => {
@@ -28,8 +28,10 @@ export const SignIn = () => {
 			batch(() => {
 				dispatch(setEmail({ email }))
 				dispatch(setNome({ nome }))
-				dispatch(setEmail({ token }))
+				dispatch(setToken({ token }))
 			})
+
+			if(data.lembrar) localStorage.setItem('@hublocalluan/token', token)
 
 			toast({
 				title: 'Sucesso',

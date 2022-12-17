@@ -1,13 +1,27 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { FooterMenu } from '../../components/FooterMenu'
+import { Header } from '../../components/Header'
 import { SideMenu } from '../../components/SideMenu'
 
 export const Dashboard = () => {
 	return (
-		<Flex w="100vw" h={{ base: 'calc(100% - 75px)', md: '100%' }}>
+		<Flex
+			bg="cyan.50"
+			w="100vw"
+			h={{ base: 'calc(100% - 75px)', md: '100%' }}
+		>
 			<SideMenu />
-			<Box h="100%" w="100%" bg="cyan.50">
-				<Text>Dashboard</Text>
+			<Box
+				h="calc(100% - 5.5rem)"
+				w="calc(100% - 3rem)"
+				bg="white"
+				m="4rem 1.5rem 1.5rem 1.5rem"
+				p="1rem"
+				borderRadius="lg"
+				boxShadow="lg"
+				pos='relative'
+			>
+				<Header />
 				<FooterMenu />
 			</Box>
 		</Flex>
