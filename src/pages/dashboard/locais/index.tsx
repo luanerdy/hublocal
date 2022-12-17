@@ -23,8 +23,13 @@ export const Locais = () => {
 	}, [])
 
 	return (
-		<Flex flexDir="column">
-			<Button boxShadow='md' bg="green.300" color="white" alignSelf="flex-end">
+		<Flex flexDir="column" h="100%">
+			<Button
+				boxShadow="md"
+				bg="green.300"
+				color="white"
+				alignSelf="flex-end"
+			>
 				Novo Local
 			</Button>
 			<Table

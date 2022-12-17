@@ -27,7 +27,7 @@ export const Table = ({ data, headings, onDelete }: Props) => {
 	const tdexcluir = useRef<HTMLTableCellElement>(null)
 
 	return (
-		<TableContainer mt="0.5rem">
+		<TableContainer mt="0.5rem" overflowY='auto'>
 			<ChakraTable variant="striped" colorScheme="cyan">
 				<Thead>
 					<Tr>
