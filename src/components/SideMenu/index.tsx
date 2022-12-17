@@ -65,7 +65,7 @@ export const SideMenu = () => {
 						h="50px"
 						w="100%"
 						gap="15px"
-						pl={dashboard.sideOpen ? '20px' : '28px'}
+						pl={dashboard.sideOpen ? '20px' : '30px'}
 						_active={{
 							bg: 'cyan.800',
 						}}

@@ -12,12 +12,18 @@ import {
 import { useRef } from 'react'
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 
-interface Props {
-	headings: string[]
-	data: string[][]
+interface Row {
+	cells: string[]
+	id: number
 }
 
-export const Table = ({ data, headings }: Props) => {
+interface Props {
+	headings: string[]
+	data: Row[]
+	onDelete: (id: number) => () => void
+}
+
+export const Table = ({ data, headings, onDelete }: Props) => {
 	const tdexcluir = useRef<HTMLTableCellElement>(null)
 
 	return (
@@ -41,7 +47,7 @@ export const Table = ({ data, headings }: Props) => {
 				<Tbody>
 					{data.map((row, index) => (
 						<Tr key={index}>
-							{row.map((item, idx) => (
+							{row.cells.map((item, idx) => (
 								<Td key={`${idx}${item}`}>{item}</Td>
 							))}
 							<Td display="flex" justifyContent="flex-end">
@@ -63,7 +69,7 @@ export const Table = ({ data, headings }: Props) => {
 										<AiFillEdit size={20} />
 									</Box>
 									<Box color="red.400" cursor="pointer">
-										<AiFillDelete size={20} />
+										<AiFillDelete onClick={onDelete(row.id)} size={20} />
 									</Box>
 								</Flex>
 							</Td>

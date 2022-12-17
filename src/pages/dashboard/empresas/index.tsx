@@ -13,14 +13,25 @@ export const Empresas = () => {
 		setData(response)
 	}
 
+	const onDelete = (id: number) => async () => {
+		await empresas.remove(id)
+		getEmpresas()
+	}
+
 	useEffect(() => {
 		getEmpresas()
 	}, [])
 
 	return (
-		<Flex flexDir='column'>
-			<Button bg='green.300' color='white' alignSelf='flex-end'>Nova Empresa</Button>
-			<Table data={data.map(({ nome }) => [nome])} headings={['nome']} />
+		<Flex flexDir="column">
+			<Button boxShadow='md' bg="green.300" color="white" alignSelf="flex-end">
+				Nova Empresa
+			</Button>
+			<Table
+				onDelete={onDelete}
+				data={data.map(({ nome, id }) => ({ cells: [nome], id }))}
+				headings={['nome']}
+			/>
 		</Flex>
 	)
 }

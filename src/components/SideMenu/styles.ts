@@ -2,11 +2,13 @@ import { Box, Flex } from '@chakra-ui/react'
 import styled from 'styled-components'
 
 export const FlexSide: typeof Flex = styled(Flex)`
-	width: 256px;
+	width: 176px;
+	min-width: 176px;
 	transition: 0.3s;
 
 	&.closed {
 		width: 80px;
+		min-width: 80px;
 	}
 `
 

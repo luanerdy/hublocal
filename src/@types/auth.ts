@@ -11,6 +11,10 @@ export interface SignUpInputs {
 	contrasenha: string
 }
 
+export interface Logout {
+	token: string
+}
+
 export interface InitialUser {
 	nome: string
 	email: string

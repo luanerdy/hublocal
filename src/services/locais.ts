@@ -5,3 +5,9 @@ export const getAll = async () => {
 
 	return response.data
 }
+
+export const remove = async (id: number) => {
+	const response = await api.delete(`/locais/${id}`)
+
+	return response.data
+}
