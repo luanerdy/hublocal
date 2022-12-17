@@ -1,8 +1,6 @@
 import {
 	createBrowserRouter,
 	RouterProvider,
-	useLocation,
-	useNavigate,
 } from 'react-router-dom'
 import { Dashboard } from './pages/dashboard'
 import { SignIn } from './pages/signin'

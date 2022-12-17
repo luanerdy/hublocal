@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
 import { AiOutlinePoweroff } from 'react-icons/ai'
