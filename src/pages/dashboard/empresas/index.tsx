@@ -26,7 +26,12 @@ export const Empresas = () => {
 	return (
 		<Flex flexDir="column" h="100%">
 			<Flex justify="space-between">
-				<Button boxShadow="md" bg="cyan.900" color="white">
+				<Button
+					boxShadow="md"
+					bg="cyan.900"
+					color="white"
+					onClick={getEmpresas}
+				>
 					<AiOutlineReload />
 				</Button>
 				<Button
