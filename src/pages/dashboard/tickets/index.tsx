@@ -35,7 +35,7 @@ export const Tickets = () => {
 			<Table
 				onDelete={onDelete}
 				data={data.map(({ titulo, id }) => ({ cells: [titulo], id }))}
-				headings={['nome']}
+				headings={['titulo']}
 			/>
 		</Flex>
 	)
