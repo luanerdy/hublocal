@@ -1,5 +1,4 @@
-import { Box, Flex, Image, Link, Text, useToast } from '@chakra-ui/react'
-import logo from '../../assets/images/logo.png'
+import { Flex, Link, Text, useToast } from '@chakra-ui/react'
 import { Check } from './styles'
 import { Link as RLink, useNavigate } from 'react-router-dom'
 import { Input } from '../../components/Input'
@@ -11,6 +10,7 @@ import { login } from '../../services/auth'
 import { decodeToken } from 'react-jwt'
 import { useDispatch, batch } from 'react-redux'
 import { setEmail, setNome } from '../../store/slices/user'
+import { Logo } from '../../components/Logo'
 
 export const SignIn = () => {
 	const dispatch = useDispatch()
@@ -53,9 +53,7 @@ export const SignIn = () => {
 
 	return (
 		<AuthFormContainer onSubmit={handleSubmit(onSubmit)}>
-			<Box w="50%" mb="30px">
-				<Image alt="HubLocal Logo" src={logo} />
-			</Box>
+			<Logo />
 
 			<Input
 				isRequired
@@ -75,7 +73,7 @@ export const SignIn = () => {
 				<Check
 					{...register('lembrar')}
 					colorScheme="cyan"
-					bgColor="cyan.900"
+					bg="cyan.900"
 					borderRadius="sm"
 					mr="10px"
 					boxShadow="md"

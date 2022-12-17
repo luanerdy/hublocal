@@ -7,11 +7,11 @@ export const SubmitButton = (props: { children: ReactElement | string }) => {
 			type="submit"
 			boxShadow="lg"
 			w="100%"
-			bgColor="green.300"
+			bg="green.300"
 			fontWeight={500}
 			color="cyan.900"
 			_hover={{
-				bgColor: 'green.200',
+				bg: 'green.200',
 			}}
 		>
 			{props.children}

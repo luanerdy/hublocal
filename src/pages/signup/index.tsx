@@ -1,5 +1,4 @@
-import { Box, Image, Link, Text, useToast } from '@chakra-ui/react'
-import logo from '../../assets/images/logo.png'
+import { Link, Text, useToast } from '@chakra-ui/react'
 import { Link as RLink, useNavigate } from 'react-router-dom'
 import { Input } from '../../components/Input'
 import { SubmitButton } from '../../components/SubmitButton'
@@ -7,6 +6,7 @@ import { AuthFormContainer } from '../../components/AuthFormContainer'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SignUpInputs } from '../../@types/auth'
 import { signup } from '../../services/auth'
+import { Logo } from '../../components/Logo'
 
 export const SignUp = () => {
 	const toast = useToast()
@@ -48,9 +48,7 @@ export const SignUp = () => {
 
 	return (
 		<AuthFormContainer onSubmit={handleSubmit(onSubmit)}>
-			<Box w="50%" mb="30px">
-				<Image alt="HubLocal Logo" src={logo} />
-			</Box>
+			<Logo />
 
 			<Input
 				m="8px 0"

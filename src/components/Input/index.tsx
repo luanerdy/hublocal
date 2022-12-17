@@ -11,8 +11,8 @@ export const Input = forwardRef(function InputWithRef(
 			{...props}
 			border="none"
 			m={props.m ?? '15px 0'}
-			bgColor="cyan.900"
-			color="white"
+			bg="cyan.900"
+			color="cyan.50"
 			boxShadow="lg"
 		/>
 	)

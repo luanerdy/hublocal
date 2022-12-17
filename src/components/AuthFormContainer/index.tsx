@@ -3,7 +3,7 @@ import { FormEventHandler, ReactElement } from 'react'
 
 export const AuthFormContainer = (props: { children: ReactElement[], onSubmit: FormEventHandler }) => {
 	return (
-		<Flex align="center" justify="center" bgColor="cyan.50" height="100%">
+		<Flex align="center" justify="center" bg="cyan.50" height="100%">
 			<Flex
 				as="form"
 				align="center"
