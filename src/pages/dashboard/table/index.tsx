@@ -6,35 +6,69 @@ import {
 	Th,
 	Td,
 	TableContainer,
+	Flex,
+	Box,
 } from '@chakra-ui/react'
+import { useRef } from 'react'
+import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 
-export const Table = () => {
+interface Props {
+	headings: string[]
+	data: string[][]
+}
+
+export const Table = ({ data, headings }: Props) => {
+	const tdexcluir = useRef<HTMLTableCellElement>(null)
+
 	return (
-		<TableContainer>
+		<TableContainer mt="0.5rem">
 			<ChakraTable variant="striped" colorScheme="cyan">
 				<Thead>
 					<Tr>
-						<Th>To convert</Th>
-						<Th>into</Th>
-						<Th>multiply by</Th>
+						{headings.map((heading, index) => (
+							<Th key={index}>{heading}</Th>
+						))}
+						<Th
+							display="flex"
+							w="fit-content"
+							ml="auto"
+							ref={tdexcluir}
+						>
+							Editar / Excluir
+						</Th>
 					</Tr>
 				</Thead>
 				<Tbody>
-					<Tr>
-						<Td>inches</Td>
-						<Td>millimetres (mm)</Td>
-						<Td>25.4</Td>
-					</Tr>
-					<Tr>
-						<Td>feet</Td>
-						<Td>centimetres (cm)</Td>
-						<Td>30.48</Td>
-					</Tr>
-					<Tr>
-						<Td>yards</Td>
-						<Td>metres (m)</Td>
-						<Td>0.91444</Td>
-					</Tr>
+					{data.map((row, index) => (
+						<Tr key={index}>
+							{row.map((item, idx) => (
+								<Td key={`${idx}${item}`}>{item}</Td>
+							))}
+							<Td display="flex" justifyContent="flex-end">
+								<Flex
+									p='0 0 0 48px'
+									justify='center'
+									w={
+										tdexcluir?.current
+											? tdexcluir.current.getBoundingClientRect()
+												.width
+											: 'fit-content'
+									}
+								>
+									<Box
+										color="green.400"
+										cursor="pointer"
+										mr="0.75rem"
+									>
+										<AiFillEdit size={20} />
+									</Box>
+									<Box color="red.400" cursor="pointer">
+										<AiFillDelete size={20} />
+									</Box>
+								</Flex>
+							</Td>
+						</Tr>
+					))}
 				</Tbody>
 			</ChakraTable>
 		</TableContainer>

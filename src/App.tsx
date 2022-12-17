@@ -11,6 +11,7 @@ import { RootState } from './store/store'
 import { decodeToken, isExpired } from 'react-jwt'
 import { InitialUser } from './@types/auth'
 import { setEmail, setNome, setToken } from './store/slices/user'
+import { logout } from './utils/auth'
 
 export const App = () => {
 	const { user } = useSelector((state: RootState) => state)
@@ -35,9 +36,14 @@ export const App = () => {
 		const stateToken = user.token
 		const inDashboard = window.location.pathname === '/dashboard'
 
-		if (stateToken && isExpired(stateToken)) window.location.pathname = '/'
-		if (storageToken && isExpired(storageToken))
+		if (stateToken && isExpired(stateToken)) {
+			logout()
 			window.location.pathname = '/'
+		}
+		if (storageToken && isExpired(storageToken)) {
+			logout()
+			window.location.pathname = '/'
+		}
 		if (!stateToken && !storageToken && inDashboard)
 			window.location.pathname = '/'
 		if ((!!storageToken || !!stateToken) && !inDashboard)
