@@ -3,6 +3,7 @@ import { Table } from '../table'
 import * as locais from '../../../services/locais'
 import { Local } from '../../../@types/locais'
 import { Button, Flex } from '@chakra-ui/react'
+import { AiOutlineReload } from 'react-icons/ai'
 
 export const Locais = () => {
 	const [data, setData] = useState<Local[]>([])
@@ -24,14 +25,19 @@ export const Locais = () => {
 
 	return (
 		<Flex flexDir="column" h="100%">
-			<Button
-				boxShadow="md"
-				bg="green.300"
-				color="white"
-				alignSelf="flex-end"
-			>
-				Novo Local
-			</Button>
+			<Flex justify="space-between">
+				<Button boxShadow="md" bg="cyan.900" color="white">
+					<AiOutlineReload />
+				</Button>
+				<Button
+					boxShadow="md"
+					fontSize={{ base: 'xs', xxs: 'sm', xs: 'md' }}
+					bg="green.300"
+					color="white"
+				>
+					Novo Local
+				</Button>
+			</Flex>
 			<Table
 				onDelete={onDelete}
 				data={data.map(({ nome, id }) => ({ cells: [nome], id }))}

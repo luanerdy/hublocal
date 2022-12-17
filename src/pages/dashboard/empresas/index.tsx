@@ -3,6 +3,7 @@ import { Table } from '../table'
 import * as empresas from '../../../services/empresas'
 import { Empresa } from '../../../@types/empresas'
 import { Button, Flex } from '@chakra-ui/react'
+import { AiOutlineReload } from 'react-icons/ai'
 
 export const Empresas = () => {
 	const [data, setData] = useState<Empresa[]>([])
@@ -24,14 +25,19 @@ export const Empresas = () => {
 
 	return (
 		<Flex flexDir="column" h="100%">
-			<Button
-				boxShadow="md"
-				bg="green.300"
-				color="white"
-				alignSelf="flex-end"
-			>
-				Nova Empresa
-			</Button>
+			<Flex justify="space-between">
+				<Button boxShadow="md" bg="cyan.900" color="white">
+					<AiOutlineReload />
+				</Button>
+				<Button
+					boxShadow="md"
+					fontSize={{ base: 'xs', xxs: 'sm', xs: 'md' }}
+					bg="green.300"
+					color="white"
+				>
+					Nova Empresa
+				</Button>
+			</Flex>
 			<Table
 				onDelete={onDelete}
 				data={data.map(({ nome, id }) => ({ cells: [nome], id }))}
