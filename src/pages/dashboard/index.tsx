@@ -31,7 +31,12 @@ export const Dashboard = () => {
 			<SideMenu />
 			<Box
 				h="calc(100% - 5.5rem)"
-				w="calc(100% - 3rem)"
+				w={{
+					base: 'calc(100% - 3rem)',
+					md: `calc(100% - ${
+						dashboard.sideOpen ? '200px' : '80px'
+					} - 1.5rem)`,
+				}}
 				bg="white"
 				m="4rem 1.5rem 1.5rem 1.5rem"
 				p="1rem"
