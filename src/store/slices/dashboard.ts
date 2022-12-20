@@ -10,7 +10,7 @@ interface Slice {
 }
 
 const slice = createSlice({
-	name: 'user',
+	name: 'dashboard',
 	initialState: {
 		entity: 'Empresas',
 		sideOpen: true,

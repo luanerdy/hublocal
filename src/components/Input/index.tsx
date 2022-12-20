@@ -1,12 +1,14 @@
 import { Input as ChakraInput, InputProps } from '@chakra-ui/react'
 import { forwardRef, LegacyRef } from 'react'
+import ReactInputMask, { Props } from 'react-input-mask'
 
 export const Input = forwardRef(function InputWithRef(
-	props: Partial<InputProps>,
+	props: Partial<InputProps> & Partial<Props>,
 	ref: LegacyRef<HTMLInputElement>
 ) {
 	return (
 		<ChakraInput
+			as={props.mask ? ReactInputMask : 'input'}
 			ref={ref}
 			{...props}
 			border="none"

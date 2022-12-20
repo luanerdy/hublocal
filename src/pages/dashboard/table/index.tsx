@@ -106,6 +106,7 @@ export const Table = <Type extends { id: number }>({
 									<Td
 										onClick={handleShowDetails(row.id)}
 										key={`${idx}${item[1]}`}
+										cursor='pointer'
 									>
 										{item[1]}
 									</Td>

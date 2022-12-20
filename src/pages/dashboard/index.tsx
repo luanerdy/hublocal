@@ -1,9 +1,12 @@
 import { Box, Flex } from '@chakra-ui/react'
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Entity } from '../../@types/dashboard'
 import { FooterMenu } from '../../components/FooterMenu'
 import { Header } from '../../components/Header'
 import { SideMenu } from '../../components/SideMenu'
+import { getAll as getResponsaveis } from '../../services/responsaveis'
+import { setAll as setResponsaveis } from '../../store/slices/responsaveis'
 import { RootState } from '../../store/store'
 import { Empresas } from './empresas'
 import { Locais } from './locais'
@@ -11,6 +14,7 @@ import { Tickets } from './tickets'
 
 export const Dashboard = () => {
 	const { dashboard } = useSelector((state: RootState) => state)
+	const dispatch = useDispatch()
 
 	const switchComponentByEntity = (entity: Entity) => {
 		switch (entity) {
@@ -22,6 +26,17 @@ export const Dashboard = () => {
 			return <Tickets />
 		}
 	}
+
+	const fetchResponsaveis = async () => {
+		const response = await getResponsaveis()
+
+		dispatch(setResponsaveis(response))
+	}
+
+	useEffect(() => {
+		fetchResponsaveis()
+	}, [])
+
 	return (
 		<Flex
 			bg="cyan.50"

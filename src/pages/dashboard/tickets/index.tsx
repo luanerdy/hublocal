@@ -36,14 +36,6 @@ export const Tickets = () => {
 				>
 					<AiOutlineReload />
 				</Button>
-				<Button
-					boxShadow="md"
-					fontSize={{ base: 'xs', xxs: 'sm', xs: 'md' }}
-					bg="green.300"
-					color="white"
-				>
-					Novo Ticket
-				</Button>
 			</Flex>
 			<Table<Ticket>
 				exclude={[

@@ -1,9 +1,10 @@
-import { Button } from '@chakra-ui/react'
+import { Button, ButtonProps } from '@chakra-ui/react'
 import { ReactElement } from 'react'
 
-export const SubmitButton = (props: { children: ReactElement | string }) => {
+export const SubmitButton = (props: ButtonProps & { children: ReactElement | string }) => {
 	return (
 		<Button
+			{...props}
 			type="submit"
 			boxShadow="lg"
 			w="100%"
