@@ -14,7 +14,9 @@ export const Locais = () => {
 		setData(response)
 	}
 
-	const onDelete = (id: number) => async () => {
+	const onDelete = async (id: number | undefined) => {
+		if (!id) return
+
 		await locais.remove(id)
 		getLocais()
 	}
@@ -43,9 +45,10 @@ export const Locais = () => {
 					Novo Local
 				</Button>
 			</Flex>
-			<Table
+			<Table<Local>
+				exclude={['responsavelPrincipal', 'empresaId']}
 				onDelete={onDelete}
-				data={data.map(({ nome, id }) => ({ cells: [nome], id }))}
+				data={data}
 				headings={['nome']}
 			/>
 		</Flex>

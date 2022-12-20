@@ -14,7 +14,9 @@ export const Empresas = () => {
 		setData(response)
 	}
 
-	const onDelete = (id: number) => async () => {
+	const onDelete = async (id: number | undefined) => {
+		if (!id) return
+
 		await empresas.remove(id)
 		getEmpresas()
 	}
@@ -43,9 +45,10 @@ export const Empresas = () => {
 					Nova Empresa
 				</Button>
 			</Flex>
-			<Table
+			<Table<Empresa>
 				onDelete={onDelete}
-				data={data.map(({ nome, id }) => ({ cells: [nome], id }))}
+				exclude={['responsavelPrincipal']}
+				data={data}
 				headings={['nome']}
 			/>
 		</Flex>

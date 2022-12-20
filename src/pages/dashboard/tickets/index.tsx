@@ -14,7 +14,9 @@ export const Tickets = () => {
 		setData(response)
 	}
 
-	const onDelete = (id: number) => async () => {
+	const onDelete = async (id: number | undefined) => {
+		if (!id) return
+
 		await tickets.remove(id)
 		getTickets()
 	}
@@ -43,9 +45,16 @@ export const Tickets = () => {
 					Novo Ticket
 				</Button>
 			</Flex>
-			<Table
+			<Table<Ticket>
+				exclude={[
+					'criadoPor',
+					'atendidoPor',
+					'localResponsavelPrincipal',
+					'localEmpresa',
+					'localId',
+				]}
 				onDelete={onDelete}
-				data={data.map(({ titulo, id }) => ({ cells: [titulo], id }))}
+				data={data}
 				headings={['titulo']}
 			/>
 		</Flex>
