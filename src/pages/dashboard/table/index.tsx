@@ -20,6 +20,7 @@ interface Props<Type> {
 	exclude: string[]
 	data: Type[]
 	onDelete: (id: number | undefined) => void
+	onEdit: (id: number | undefined) => void
 }
 
 export const Table = <Type extends { id: number }>({
@@ -27,6 +28,7 @@ export const Table = <Type extends { id: number }>({
 	headings,
 	exclude,
 	onDelete,
+	onEdit
 }: Props<Type>) => {
 	const tdexcluir = useRef<HTMLTableCellElement>(null)
 	const [openModalDelete, setOpenModalDelete] = useState(false)
@@ -37,6 +39,10 @@ export const Table = <Type extends { id: number }>({
 	const handleDeleteRow = (row: number) => () => {
 		setOpenModalDelete(true)
 		setRowDelete(row)
+	}
+
+	const handleEditRow = (row: number) => () => {
+		onEdit(row)
 	}
 
 	const handleShowDetails = (row: number) => () => {
@@ -127,7 +133,7 @@ export const Table = <Type extends { id: number }>({
 										cursor="pointer"
 										mr="0.75rem"
 									>
-										<AiFillEdit size={20} />
+										<AiFillEdit onClick={handleEditRow(row.id)} size={20} />
 									</Box>
 									<Box color="red.400" cursor="pointer">
 										<AiFillDelete

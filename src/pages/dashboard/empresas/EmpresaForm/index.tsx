@@ -17,7 +17,7 @@ import { CreateResponsavelForm } from '../../../../components/CreateResponsavelF
 import { Input } from '../../../../components/Input'
 import { ModalInfo } from '../../../../components/ModalInfo'
 import { SubmitButton } from '../../../../components/SubmitButton'
-import { create } from '../../../../services/empresas'
+import { create, edit } from '../../../../services/empresas'
 import { RootState } from '../../../../store/store'
 
 interface Props {
@@ -26,20 +26,27 @@ interface Props {
 
 export const EmpresaForm = ({ closeForm }: Props) => {
 	const [createResponsavel, setCreateResponsavel] = useState(false)
-	const { responsaveis } = useSelector((state: RootState) => state)
+	const { responsaveis, empresa } = useSelector((state: RootState) => state)
 	const { register, handleSubmit } = useForm<Omit<Empresa, 'id'>>()
 	const toast = useToast()
+	const editEmpresa = empresa.isEditing
+		? empresa.empresas.find(({ id }) => empresa.editId === id)
+		: undefined
 
 	const onSubmit = async (data: Omit<Empresa, 'id'>) => {
 		try {
-			await create({
+			empresa.isEditing ? await edit({
+				...data,
+				cnpj: data.cnpj.replaceAll(/\D/gi, ''),
+				responsavelPrincipal: Number(data.responsavelPrincipal),
+			}, empresa.editId) : await create({
 				...data,
 				cnpj: data.cnpj.replaceAll(/\D/gi, ''),
 				responsavelPrincipal: Number(data.responsavelPrincipal),
 			})
 			toast({
 				title: 'Sucesso',
-				description: 'Empresa criada com sucesso',
+				description: `Empresa ${empresa.isEditing ? 'editada' : 'criada'} com sucesso`,
 				status: 'success',
 				duration: 5000,
 				isClosable: true,
@@ -48,7 +55,7 @@ export const EmpresaForm = ({ closeForm }: Props) => {
 		} catch (err) {
 			toast({
 				title: 'Erro',
-				description: 'Ocorreu um erro',
+				description: `Não foi possível ${empresa.isEditing ? 'editar' : 'criar'} a empresa`,
 				status: 'error',
 				duration: 5000,
 				isClosable: true,
@@ -76,7 +83,7 @@ export const EmpresaForm = ({ closeForm }: Props) => {
 			>
 				<Box w="100%">
 					<Heading mb={10} size="md">
-						Adicionar Empresa
+						{empresa.isEditing ? 'Editar' : 'Adicionar'} Empresa
 					</Heading>
 					<FormLabel m="0">
 						<Text mb={5} fontWeight={500}>
@@ -113,6 +120,7 @@ export const EmpresaForm = ({ closeForm }: Props) => {
 					<FormLabel m="0">
 						<Text fontWeight={500}>Nome:</Text>
 						<Input
+							defaultValue={empresa.isEditing ? editEmpresa?.nome : ''}
 							type="text"
 							isRequired
 							placeholder="Nome"
@@ -122,6 +130,7 @@ export const EmpresaForm = ({ closeForm }: Props) => {
 					<FormLabel m="0">
 						<Text fontWeight={500}>CNPJ:</Text>
 						<Input
+							defaultValue={empresa.isEditing ? editEmpresa?.cnpj : ''}
 							mask="99.999.999/9999-99"
 							isRequired
 							placeholder="CNPJ"
@@ -131,6 +140,7 @@ export const EmpresaForm = ({ closeForm }: Props) => {
 					<FormLabel m="0">
 						<Text fontWeight={500}>Descrição:</Text>
 						<Input
+							defaultValue={empresa.isEditing ? editEmpresa?.descricao : ''}
 							isRequired
 							as={Textarea}
 							placeholder="Descrição"

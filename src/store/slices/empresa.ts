@@ -1,31 +1,41 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Empresa as InitialEmpresa } from '../../@types/empresas'
+import { Empresa } from '../../@types/empresas'
+
+interface InitialEmpresas {
+	isEditing: boolean,
+	editId: number,
+	empresas: Empresa[]
+}
 
 interface Slice {
 	name: string
-	initialState: InitialEmpresa
+	initialState: InitialEmpresas
 	reducers: {
-		[key: string]: (state: InitialEmpresa, action: { type: string, payload: InitialEmpresa }) => void
+		[key: string]: (state: InitialEmpresas, action: { type: string, payload: Partial<InitialEmpresas> }) => void
 	}
 }
 
 export const initialState = {
-	id: 0,
-	nome: '',
-	cnpj: '',
-	descricao: '',
-	responsavelPrincipal: 0
+	isEditing: false,
+	editId: 0,
+	empresas: []
 }
 
 const slice = createSlice({
 	name: 'empresa',
 	initialState,
 	reducers: {
-		setAll: (state, { payload }) => {
-			state = { ...payload }
+		setEditId: (state, { payload }) => {
+			if(payload.editId) state.editId = payload.editId
+		},
+		setIsEditing: (state, { payload }) => {
+			if(payload.isEditing) state.isEditing = payload.isEditing
+		},
+		setEmpresas: (state, { payload }) => {
+			if(payload.empresas) state.empresas = payload.empresas
 		},
 	}
 } as Slice)
 
-export const { setAll } = slice.actions
+export const { setEditId, setEmpresas, setIsEditing } = slice.actions
 export default slice.reducer

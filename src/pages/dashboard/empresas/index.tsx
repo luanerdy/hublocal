@@ -5,19 +5,23 @@ import { Empresa } from '../../../@types/empresas'
 import { Button, Flex } from '@chakra-ui/react'
 import { AiOutlineReload } from 'react-icons/ai'
 import { EmpresaForm } from './EmpresaForm'
+import { batch, useDispatch, useSelector } from 'react-redux'
+import { setEditId, setEmpresas, setIsEditing } from '../../../store/slices/empresa'
+import { RootState } from '../../../store/store'
 
 export const Empresas = () => {
-	const [data, setData] = useState<Empresa[]>([])
 	const [form, setForm] = useState(false)
+	const { empresa } = useSelector((state: RootState) => state)
+	const dispatch = useDispatch()
 
-	const getEmpresas = async () => {
+	const fetchEmpresas = async () => {
 		const response = await empresas.getAll()
 
-		setData(response)
+		dispatch(setEmpresas({empresas: response}))
 	}
 
 	const closeForm = () => {
-		getEmpresas()
+		fetchEmpresas()
 		setForm(false)
 	}
 
@@ -25,11 +29,22 @@ export const Empresas = () => {
 		if (!id) return
 
 		await empresas.remove(id)
-		getEmpresas()
+		fetchEmpresas()
+	}
+
+	const onEdit = async (editId: number | undefined) => {
+		if (!editId) return
+
+		setForm(true)
+
+		batch(() => {
+			dispatch(setIsEditing({ isEditing: true }))
+			dispatch(setEditId({ editId }))
+		})
 	}
 
 	useEffect(() => {
-		getEmpresas()
+		fetchEmpresas()
 	}, [])
 
 	return (
@@ -43,7 +58,7 @@ export const Empresas = () => {
 							boxShadow="md"
 							bg="cyan.900"
 							color="white"
-							onClick={getEmpresas}
+							onClick={fetchEmpresas}
 						>
 							<AiOutlineReload />
 						</Button>
@@ -58,9 +73,10 @@ export const Empresas = () => {
 						</Button>
 					</Flex>
 					<Table<Empresa>
+						onEdit={onEdit}
 						onDelete={onDelete}
 						exclude={['responsavelPrincipal']}
-						data={data}
+						data={empresa.empresas}
 						headings={['nome']}
 					/>
 				</>

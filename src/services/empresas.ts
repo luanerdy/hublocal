@@ -21,3 +21,9 @@ export const create = async (data: Omit<Type, 'id'>) => {
 
 	return response.data
 }
+
+export const edit = async (data: Omit<Type, 'id'>, id: number) => {
+	const response = await api.patch(`/${resource}/${id}`, data)
+
+	return response.data
+}

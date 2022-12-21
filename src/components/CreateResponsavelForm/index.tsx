@@ -1,8 +1,10 @@
 /* eslint-disable no-nonoctal-decimal-escape */
 import { Box, FormLabel, Text, Textarea, useToast } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { Responsavel } from '../../@types/responsaveis'
-import { create } from '../../services/responsaveis'
+import { create, getAll } from '../../services/responsaveis'
+import { setAll } from '../../store/slices/responsaveis'
 import { Input } from '../Input'
 import { SubmitButton } from '../SubmitButton'
 
@@ -13,6 +15,13 @@ interface Props {
 export const CreateResponsavelForm = ({ closeModal }: Props) => {
 	const { register, handleSubmit } = useForm<Omit<Responsavel, 'id'>>()
 	const toast = useToast()
+	const dispatch = useDispatch()
+
+	const fetchResponsaveis = async () => {
+		const response = await getAll()
+
+		dispatch(setAll(response))
+	}
 
 	const onSubmit = async (data: Omit<Responsavel, 'id'>) => {
 		try {
@@ -27,6 +36,7 @@ export const CreateResponsavelForm = ({ closeModal }: Props) => {
 				duration: 5000,
 				isClosable: true,
 			})
+			fetchResponsaveis()
 			closeModal()
 		} catch (err) {
 			toast({
