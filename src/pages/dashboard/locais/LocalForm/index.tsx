@@ -130,6 +130,9 @@ export const LocalForm = ({ closeForm }: Props) => {
 						<Select
 							bg="cyan.900"
 							color="white"
+							defaultValue={
+								local.isEditing ? editLocal?.empresaId : empresa.empresas[0].id
+							}
 							{...register('empresaId')}
 						>
 							{empresa.empresas.map(({ id, nome }) => (
@@ -152,6 +155,9 @@ export const LocalForm = ({ closeForm }: Props) => {
 						<Select
 							bg="cyan.900"
 							color="white"
+							defaultValue={
+								local.isEditing ? editLocal?.responsavelPrincipal : responsaveis[0].id
+							}
 							{...register('responsavelPrincipal')}
 						>
 							{responsaveis.map(({ id, nome }) => (
