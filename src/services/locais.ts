@@ -1,4 +1,5 @@
 import { Local } from '../@types/locais'
+import { LocalFormInput } from '../pages/dashboard/locais/LocalForm'
 import { api } from './api'
 
 const resource = 'locais'
@@ -18,6 +19,12 @@ export const remove = async (id: number) => {
 
 export const create = async (data: Omit<Type, 'id'>) => {
 	const response = await api.post(`/${resource}`, data)
+
+	return response.data
+}
+
+export const edit = async (data: LocalFormInput, id: number) => {
+	const response = await api.patch(`/${resource}/${id}`, data)
 
 	return response.data
 }

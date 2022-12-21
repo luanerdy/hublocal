@@ -6,12 +6,17 @@ import { FooterMenu } from '../../components/FooterMenu'
 import { Header } from '../../components/Header'
 import { SideMenu } from '../../components/SideMenu'
 import { getAll as getEmpresas } from '../../services/empresas'
+import { getAll as getLocais } from '../../services/locais'
 import { getAll as getResponsaveis } from '../../services/responsaveis'
 import {
-	setEditId,
+	setEditId as setEmpresasEditId,
 	setEmpresas,
-	setIsEditing,
+	setIsEditing as setEmpresasIsEditing,
 } from '../../store/slices/empresa'
+import {
+	setEditId as setLocalEditId,
+	setIsEditing as setLocalIsEditing,
+} from '../../store/slices/local'
 import { setAll as setResponsaveis } from '../../store/slices/responsaveis'
 import { RootState } from '../../store/store'
 import { Empresas } from './empresas'
@@ -44,14 +49,25 @@ export const Dashboard = () => {
 
 		batch(() => {
 			dispatch(setEmpresas({ empresas: response }))
-			dispatch(setIsEditing({ isEditing: false }))
-			dispatch(setEditId({ editId: 0 }))
+			dispatch(setEmpresasIsEditing({ isEditing: false }))
+			dispatch(setEmpresasEditId({ editId: 0 }))
+		})
+	}
+
+	const fetchLocais = async () => {
+		const response = await getLocais()
+
+		batch(() => {
+			dispatch(setEmpresas({ empresas: response }))
+			dispatch(setLocalIsEditing({ isEditing: false }))
+			dispatch(setLocalEditId({ editId: 0 }))
 		})
 	}
 
 	useEffect(() => {
 		fetchResponsaveis()
 		fetchEmpresas()
+		fetchLocais()
 	}, [])
 
 	return (
