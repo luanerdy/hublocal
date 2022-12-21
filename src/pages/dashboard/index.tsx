@@ -85,6 +85,7 @@ export const Dashboard = () => {
 		fetchResponsaveis()
 		fetchEmpresas()
 		fetchLocais()
+		fetchTickets()
 	}, [])
 
 	return (
