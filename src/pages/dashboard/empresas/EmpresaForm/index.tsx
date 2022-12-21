@@ -11,13 +11,14 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
+import { batch, useDispatch, useSelector } from 'react-redux'
 import { Empresa } from '../../../../@types/empresas'
 import { CreateResponsavelForm } from '../../../../components/CreateResponsavelForm'
 import { Input } from '../../../../components/Input'
 import { ModalInfo } from '../../../../components/ModalInfo'
 import { SubmitButton } from '../../../../components/SubmitButton'
 import { create, edit } from '../../../../services/empresas'
+import { setEditId, setIsEditing } from '../../../../store/slices/empresa'
 import { RootState } from '../../../../store/store'
 
 interface Props {
@@ -29,33 +30,52 @@ export const EmpresaForm = ({ closeForm }: Props) => {
 	const { responsaveis, empresa } = useSelector((state: RootState) => state)
 	const { register, handleSubmit } = useForm<Omit<Empresa, 'id'>>()
 	const toast = useToast()
+	const dispatch = useDispatch()
 	const editEmpresa = empresa.isEditing
 		? empresa.empresas.find(({ id }) => empresa.editId === id)
 		: undefined
 
+	console.log({ editing: empresa.isEditing })
+
+
 	const onSubmit = async (data: Omit<Empresa, 'id'>) => {
 		try {
-			empresa.isEditing ? await edit({
-				...data,
-				cnpj: data.cnpj.replaceAll(/\D/gi, ''),
-				responsavelPrincipal: Number(data.responsavelPrincipal),
-			}, empresa.editId) : await create({
-				...data,
-				cnpj: data.cnpj.replaceAll(/\D/gi, ''),
-				responsavelPrincipal: Number(data.responsavelPrincipal),
-			})
+			empresa.isEditing
+				? await edit(
+					{
+						...data,
+						cnpj: data.cnpj.replaceAll(/\D/gi, ''),
+						responsavelPrincipal: Number(
+							data.responsavelPrincipal
+						),
+					},
+					empresa.editId
+				)
+				: await create({
+					...data,
+					cnpj: data.cnpj.replaceAll(/\D/gi, ''),
+					responsavelPrincipal: Number(data.responsavelPrincipal),
+				})
 			toast({
 				title: 'Sucesso',
-				description: `Empresa ${empresa.isEditing ? 'editada' : 'criada'} com sucesso`,
+				description: `Empresa ${
+					empresa.isEditing ? 'editada' : 'criada'
+				} com sucesso`,
 				status: 'success',
 				duration: 5000,
 				isClosable: true,
+			})
+			batch(() => {
+				dispatch(setIsEditing({ isEditing: false }))
+				dispatch(setEditId({ editId: 0 }))
 			})
 			closeForm()
 		} catch (err) {
 			toast({
 				title: 'Erro',
-				description: `Não foi possível ${empresa.isEditing ? 'editar' : 'criar'} a empresa`,
+				description: `Não foi possível ${
+					empresa.isEditing ? 'editar' : 'criar'
+				} a empresa`,
 				status: 'error',
 				duration: 5000,
 				isClosable: true,
@@ -120,7 +140,9 @@ export const EmpresaForm = ({ closeForm }: Props) => {
 					<FormLabel m="0">
 						<Text fontWeight={500}>Nome:</Text>
 						<Input
-							defaultValue={empresa.isEditing ? editEmpresa?.nome : ''}
+							defaultValue={
+								empresa.isEditing ? editEmpresa?.nome : ''
+							}
 							type="text"
 							isRequired
 							placeholder="Nome"
@@ -130,7 +152,9 @@ export const EmpresaForm = ({ closeForm }: Props) => {
 					<FormLabel m="0">
 						<Text fontWeight={500}>CNPJ:</Text>
 						<Input
-							defaultValue={empresa.isEditing ? editEmpresa?.cnpj : ''}
+							defaultValue={
+								empresa.isEditing ? editEmpresa?.cnpj : ''
+							}
 							mask="99.999.999/9999-99"
 							isRequired
 							placeholder="CNPJ"
@@ -140,7 +164,9 @@ export const EmpresaForm = ({ closeForm }: Props) => {
 					<FormLabel m="0">
 						<Text fontWeight={500}>Descrição:</Text>
 						<Input
-							defaultValue={empresa.isEditing ? editEmpresa?.descricao : ''}
+							defaultValue={
+								empresa.isEditing ? editEmpresa?.descricao : ''
+							}
 							isRequired
 							as={Textarea}
 							placeholder="Descrição"

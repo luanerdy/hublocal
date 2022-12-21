@@ -1,13 +1,17 @@
 import { Box, Flex } from '@chakra-ui/react'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { batch, useDispatch, useSelector } from 'react-redux'
 import { Entity } from '../../@types/dashboard'
 import { FooterMenu } from '../../components/FooterMenu'
 import { Header } from '../../components/Header'
 import { SideMenu } from '../../components/SideMenu'
 import { getAll as getEmpresas } from '../../services/empresas'
 import { getAll as getResponsaveis } from '../../services/responsaveis'
-import { setEmpresas } from '../../store/slices/empresa'
+import {
+	setEditId,
+	setEmpresas,
+	setIsEditing,
+} from '../../store/slices/empresa'
 import { setAll as setResponsaveis } from '../../store/slices/responsaveis'
 import { RootState } from '../../store/store'
 import { Empresas } from './empresas'
@@ -38,7 +42,11 @@ export const Dashboard = () => {
 	const fetchEmpresas = async () => {
 		const response = await getEmpresas()
 
-		dispatch(setEmpresas(response))
+		batch(() => {
+			dispatch(setEmpresas({ empresas: response }))
+			dispatch(setIsEditing({ isEditing: false }))
+			dispatch(setEditId({ editId: 0 }))
+		})
 	}
 
 	useEffect(() => {

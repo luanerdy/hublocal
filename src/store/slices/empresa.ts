@@ -26,10 +26,10 @@ const slice = createSlice({
 	initialState,
 	reducers: {
 		setEditId: (state, { payload }) => {
-			if(payload.editId) state.editId = payload.editId
+			if(payload.editId !== undefined) state.editId = payload.editId
 		},
 		setIsEditing: (state, { payload }) => {
-			if(payload.isEditing) state.isEditing = payload.isEditing
+			if(payload.isEditing !== undefined) state.isEditing = payload.isEditing
 		},
 		setEmpresas: (state, { payload }) => {
 			if(payload.empresas) state.empresas = payload.empresas
