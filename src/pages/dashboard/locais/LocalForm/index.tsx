@@ -32,7 +32,7 @@ export type LocalFormInput = Omit<Local, 'id'> & {
 
 export const LocalForm = ({ closeForm }: Props) => {
 	const [createResponsavel, setCreateResponsavel] = useState(false)
-	const { responsaveis, local, empresa } = useSelector(
+	const { responsaveis, local, empresa, ticket } = useSelector(
 		(state: RootState) => state
 	)
 	const { register, handleSubmit } = useForm<LocalFormInput>()
@@ -40,6 +40,12 @@ export const LocalForm = ({ closeForm }: Props) => {
 	const dispatch = useDispatch()
 	const editLocal = local.isEditing
 		? local.locais.find(({ id }) => local.editId === id)
+		: undefined
+	const editTicket = local.isEditing
+		? ticket.tickets.find(
+			({ localId, status }) =>
+				localId === local.editId && status !== 'concluido'
+		)
 		: undefined
 
 	console.log({ editing: local.isEditing })
@@ -181,6 +187,10 @@ export const LocalForm = ({ closeForm }: Props) => {
 									</Text>
 									<Input
 										m={0}
+										{...(local.isEditing &&
+										editTicket?.titulo
+											? { value: editTicket.titulo }
+											: {})}
 										isRequired
 										placeholder="Título do ticket"
 										{...register('ticket.titulo')}
@@ -191,6 +201,11 @@ export const LocalForm = ({ closeForm }: Props) => {
 										Status:
 									</Text>
 									<Select
+										defaultValue={
+											local.isEditing
+												? editTicket?.status
+												: 'pendente'
+										}
 										bg="cyan.900"
 										color="white"
 										{...register('ticket.status')}
@@ -220,6 +235,11 @@ export const LocalForm = ({ closeForm }: Props) => {
 										Criado por:
 									</Text>
 									<Select
+										defaultValue={
+											local.isEditing
+												? editTicket?.criadoPor
+												: responsaveis[0].id
+										}
 										bg="cyan.900"
 										color="white"
 										{...register('ticket.criadoPor')}
@@ -242,6 +262,11 @@ export const LocalForm = ({ closeForm }: Props) => {
 										Atendido por:
 									</Text>
 									<Select
+										defaultValue={
+											local.isEditing
+												? editTicket?.atendidoPor
+												: responsaveis[0].id
+										}
 										bg="cyan.900"
 										color="white"
 										{...register('ticket.atendidoPor')}

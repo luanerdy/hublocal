@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Table } from '../table'
 import * as locais from '../../../services/locais'
+import * as tickets from '../../../services/tickets'
 import { Local } from '../../../@types/locais'
 import { Button, Flex } from '@chakra-ui/react'
 import { AiOutlineReload } from 'react-icons/ai'
@@ -8,6 +9,7 @@ import { batch, useDispatch, useSelector } from 'react-redux'
 import { setEditId, setIsEditing, setLocais } from '../../../store/slices/local'
 import { RootState } from '../../../store/store'
 import { LocalForm } from './LocalForm'
+import { setTickets } from '../../../store/slices/ticket'
 
 export const Locais = () => {
 	const dispatch = useDispatch()
@@ -21,8 +23,15 @@ export const Locais = () => {
 		dispatch(setLocais({ locais: response }))
 	}
 
+	const fetchTickets = async () => {
+		const response = await tickets.getAll()
+
+		dispatch(setTickets({ tickets: response }))
+	}
+
 	const closeForm = () => {
 		fetchLocais()
+		fetchTickets()
 		setForm(false)
 	}
 

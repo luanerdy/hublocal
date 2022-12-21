@@ -8,6 +8,7 @@ import { SideMenu } from '../../components/SideMenu'
 import { getAll as getEmpresas } from '../../services/empresas'
 import { getAll as getLocais } from '../../services/locais'
 import { getAll as getResponsaveis } from '../../services/responsaveis'
+import { getAll as getTickets } from '../../services/tickets'
 import {
 	setEditId as setEmpresasEditId,
 	setEmpresas,
@@ -16,8 +17,14 @@ import {
 import {
 	setEditId as setLocalEditId,
 	setIsEditing as setLocalIsEditing,
+	setLocais,
 } from '../../store/slices/local'
 import { setAll as setResponsaveis } from '../../store/slices/responsaveis'
+import {
+	setEditId as setTicketEditId,
+	setIsEditing as setTicketIsEditing,
+	setTickets,
+} from '../../store/slices/ticket'
 import { RootState } from '../../store/store'
 import { Empresas } from './empresas'
 import { Locais } from './locais'
@@ -58,9 +65,19 @@ export const Dashboard = () => {
 		const response = await getLocais()
 
 		batch(() => {
-			dispatch(setEmpresas({ empresas: response }))
+			dispatch(setLocais({ locais: response }))
 			dispatch(setLocalIsEditing({ isEditing: false }))
 			dispatch(setLocalEditId({ editId: 0 }))
+		})
+	}
+
+	const fetchTickets = async () => {
+		const response = await getTickets()
+
+		batch(() => {
+			dispatch(setTickets({ tickets: response }))
+			dispatch(setTicketIsEditing({ isEditing: false }))
+			dispatch(setTicketEditId({ editId: 0 }))
 		})
 	}
 
